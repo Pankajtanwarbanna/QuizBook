@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Logo -->
+    <link rel="shortcut icon" type="image/png" href="assets/images/logo/logo.webp"/>
+
+
+    <title>QuizBook : An Online Quiz Application </title>
+
+    <!-- Style sheets -->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+
+    <!-- Bootstrap 5 CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
+</head>
+
+<body ng-app="userApp" ng-controller="mainCtrl as main">
+
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 1.5rem;padding-bottom: 1.5rem;">
+
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">QuizBook</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav navbar-right mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/services" ng-show="!main.isLoggedIn"> SERVICES </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/about" ng-show="!main.isLoggedIn"> ABOUT </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/contact" ng-show="!main.isLoggedIn"> CONTACT US </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/management" ng-show="main.isLoggedIn && main.authorized">MANAGEMENT </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/register" ng-show="!main.isLoggedIn"> JOIN US </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="#" ng-show="main.isLoggedIn" ng-click="main.logout();"> LOGOUT </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/users/{{main.username}}"   ng-show="main.isLoggedIn"> HELLO {{main.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Section -->
+    <div class="container mt-5">
+        <!-- Angular view -->
+        <div class="ng-view"></div>
+
+        <!-- Home page -->
+        <div ng-show="main.home">
+            <h1>
+                Hey there!
+            </h1>
+        </div>
+    </div>
+
+    <!--AngularJs Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+    <!-- App config -->
+    <script src="app/app.js"></script>
+    <script src="app/routes.js"></script>
+
+    <!-- Angular Controller files -->
+    <script src="app/controllers/userCtrl.js"></script>
+    <script src="app/controllers/mainCtrl.js"></script>
+    <script src="app/controllers/managementCtrl.js"></script>
+    <script src="app/controllers/emailCtrl.js"></script>
+
+    <!-- Angular Services -->
+    <script src="app/services/userServices.js"></script>
+    <script src="app/services/authServices.js"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
