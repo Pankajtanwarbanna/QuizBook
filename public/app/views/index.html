@@ -21,12 +21,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
 
     <!-- Text AngularJS-->
-    <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/textAngular.css" type="text/css">
 
 
 </head>
 
-<body ng-app="userApp" ng-controller="mainCtrl as main">
+<body ng-app="userApp" ng-controller="mainCtrl as main" ng-show="main.loadme" ng-cloak>
 
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 1.5rem;padding-bottom: 1.5rem;">
@@ -83,7 +83,8 @@
                 <div class="card-body">
                     <h5 class="card-title">One place to for types of quizzes.</h5>
                     <p class="card-text">Experience the user friendly online quiz exam process...</p>
-                    <a href="/quizzes" class="btn btn-primary">Go to Quizzes</a>
+                    <a ng-show="main.isLoggedIn" href="/quizzes" class="btn btn-primary">Go to Quizzes</a>
+                    <a ng-show="!main.isLoggedIn" href="/register" class="btn btn-primary">Login Now</a>
                 </div>
             </div>
 
