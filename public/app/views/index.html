@@ -14,8 +14,15 @@
     <!-- Style sheets -->
     <link rel="stylesheet" href="assets/css/style.css"/>
 
+    <!-- Font library -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
     <!-- Bootstrap 5 CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
+    <!-- Text AngularJS-->
+    <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+
 
 </head>
 
@@ -41,8 +48,12 @@
                             <a class="nav-link"href="/contact" ng-show="!main.isLoggedIn"> CONTACT US </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"href="/management" ng-show="main.isLoggedIn && main.authorized">MANAGEMENT </a>
+                            <a class="nav-link"href="/add-quiz" ng-show="main.isLoggedIn && main.authorized">ADD QUIZ </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link"href="/management" ng-show="main.isLoggedIn && main.authorized">USER MANAGEMENT </a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link"href="/register" ng-show="!main.isLoggedIn"> JOIN US </a>
                         </li>
@@ -65,9 +76,17 @@
 
         <!-- Home page -->
         <div ng-show="main.home">
-            <h1>
-                Hey there!
-            </h1>
+            <div class="card text-center">
+                <div class="card-header">
+                    Welcome to QuizBook!
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">One place to for types of quizzes.</h5>
+                    <p class="card-text">Experience the user friendly online quiz exam process...</p>
+                    <a href="/quizzes" class="btn btn-primary">Go to Quizzes</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -89,9 +108,19 @@
     <script src="app/services/userServices.js"></script>
     <script src="app/services/authServices.js"></script>
 
+    <!-- Angularjs Filter -->
+    <script src="app/filters/angularFilter.js"></script>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+    <!-- ============================================================== -->
+    <script src='http://textangular.com/dist/textAngular-rangy.min.js'></script>
+
+    <script src='http://textangular.com/dist/textAngular-sanitize.min.js'></script>
+
+    <script src='http://textangular.com/dist/textAngular.min.js'></script>
 
 </body>
 

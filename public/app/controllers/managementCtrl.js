@@ -1,7 +1,7 @@
 /*
     Controller written by - Pankaj tanwar
 */
-angular.module('managementController', ['userServices'])
+angular.module('managementController', ['userServices', 'textAngular'])
 
 .controller('managementCtrl', function (user) {
 
@@ -56,8 +56,7 @@ angular.module('managementController', ['userServices'])
     app.userDelete = function (username) {
         user.deleteUser(username).then(function (data) {
             if(data.data.success) {
-                    getUsers();
-
+                getUsers();
             } else {
                 app.showMoreError = data.data.message;
             }
@@ -227,5 +226,29 @@ angular.module('managementController', ['userServices'])
             }
         });
     }
+})
+
+// add quiz controller
+.controller('addQuizCtrl', function (user) {
+
+    let app = this;
+
+    // add quiz submit function
+    app.postQuizData = function (quizData) {
+
+        app.loading = true;
+
+        user.postQuizData(app.quizData).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.successMsg = data.data.message;
+                app.loading = false;
+            } else {
+                app.errorMsg = data.data.message;
+                app.loading = false;
+            }
+        })
+    }
+
 });
 

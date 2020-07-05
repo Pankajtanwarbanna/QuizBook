@@ -1,0 +1,147 @@
+<div>
+    <div class="text-center">
+        <h1>Add New Quiz</h1>
+    </div>
+</div>
+
+<form ng-submit="addQuiz.postQuizData(quizData);" ng-show="!addQuiz.successMsg">
+    <div class="row mt-5 mb-5">
+        <div class="card">
+            <div class="card-header">
+                Quiz Details
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Name</label>
+                            <input type="text" class="form-control" ng-model="addQuiz.quizData.quiz_name" placeholder="Enter quiz name.." required>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Level</label>
+                            <select class="form-select" ng-model="addQuiz.quizData.level" required>
+                                <option value="">-- Select Quiz Difficulty Level --</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Category</label>
+                            <select class="form-select" ng-model="addQuiz.quizData.category" required>
+                                <option value="">-- Select Quiz Category --</option>
+                                <option value="dsa-algo">DSA & Algo</option>
+                                <option value="cp">Competitive Programming</option>
+                                <option value="dbms">Database Management</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Time Duration</label>
+                            <input type="number" class="form-control" ng-model="addQuiz.quizData.duration" placeholder="Enter quiz time duration (in Minutes)" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Total No. of Questions {{ addQuiz.quizData.total_questions}}</label>
+                            <input type="number" class="form-control" ng-model="addQuiz.quizData.total_questions" placeholder="Enter total number of questions" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5" ng-repeat="question in [] | range: addQuiz.quizData.total_questions" ng-init="questionIndex = $index">
+        <div class="card">
+            <div class="card-header">
+                Question #{{ $index + 1}}
+            </div>
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Question</label>
+                            <div text-angular data-ng-model="addQuiz.quizData.questionsData[questionIndex].question" aria-required="true"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 mb-3">
+                                <label class="form-label">Mark allocated to Question #1</label>
+                                <input type="number" class="form-control" ng-model="addQuiz.quizData.questionsData[questionIndex].question_mark" placeholder="Enter marks for question" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label class="form-label">Question Category</label>
+                                <select class="form-select" ng-model="addQuiz.quizData.questionsData[questionIndex].question_category" required>
+                                    <option value="">-- Select Question Category --</option>
+                                    <option value="numerical">Numerical</option>
+                                    <option value="conceptual">Conceptual</option>
+                                    <option value="problem-solving">Problem Solving</option>
+                                </select>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label class="form-label">No of Options to Question #1</label>
+                                <input type="number" class="form-control" ng-model="addQuiz.quizData.questionsData[questionIndex].total_options" placeholder="Enter no. of options in question" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="mb-3" ng-repeat="option in [] | range : addQuiz.quizData.questionsData[questionIndex].total_options" ng-init="optionIndex = $index">
+                                <label class="form-label">Option {{ $index + 1 }}</label>
+                                <div text-angular data-ng-model="addQuiz.quizData.questionsData[questionIndex].optionsData[optionIndex].option" aria-required="true"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Correct Option</label>
+                            <select class="form-select" ng-model="addQuiz.quizData.questionsData[questionIndex].correct_option" required>
+                                <option value="">-- Select Correct Option --</option>
+                                <option ng-repeat="selectOption in [] | range: addQuiz.quizData.questionsData[questionIndex].total_options" ng-value="$index">Option {{ $index + 1 }}</option>                                </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Explanation</label>
+                            <div text-angular data-ng-model="addQuiz.quizData.questionsData[questionIndex].explanation" aria-required="true"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="alert alert-primary" ng-show="addQuiz.loading">
+        Please wait... adding new quiz is in process!
+    </div>
+
+    <!-- Error -->
+    <div class="alert alert-danger" ng-show="addQuiz.errorMsg">
+        {{ addQuiz.errorMsg }}
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-md btn-block mb-5">Add Quiz Now</button>
+</form>
+
+
+<!-- Error -->
+<div class="alert alert-success" ng-show="addQuiz.successMsg">
+    {{ addQuiz.successMsg }}
+</div>

@@ -71,5 +71,25 @@ angular.module('userServices',[])
         return $http.put('/api/edit/', id);
     };
 
+    // add quiz
+    userFactory.postQuizData = function (quizData) {
+        return $http.post('/api/postQuizData', quizData);
+    };
+
+    // get all quizzes
+    userFactory.getAllQuizzes = function () {
+        return $http.get('/api/getAllQuizzes');
+    };
+
+    // get quiz by id
+    userFactory.getQuiz = function (quizID) {
+        return $http.get('/api/getQuiz/' + quizID);
+    };
+
+    // submit quiz now
+    userFactory.submitQuizNow = function (submitData, quizID) {
+        return $http.post('/api/submitQuizNow/' + quizID, submitData);
+    };
+
     return userFactory;
 });

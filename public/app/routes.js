@@ -82,6 +82,28 @@ var app = angular.module('userRoutes', ['ngRoute'])
             })
 
 
+            .when('/add-quiz', {
+                templateUrl : 'app/views/admin/add-quiz.html',
+                authenticated : true,
+                controller : 'addQuizCtrl',
+                controllerAs : 'addQuiz',
+                permission : 'admin'
+            })
+
+            .when('/quizzes', {
+                templateUrl : 'app/views/pages/quizzes.html',
+                authenticated : true,
+                controller : 'quizCtrl',
+                controllerAs : 'quiz'
+            })
+
+            .when('/quiz/:quizID', {
+                templateUrl : 'app/views/pages/quiz.html',
+                authenticated : true,
+                controller : 'attendQuizCtrl',
+                controllerAs : 'attendQuiz'
+            })
+
             .otherwise( { redirectTo : '/'});
 
         $locationProvider.html5Mode({

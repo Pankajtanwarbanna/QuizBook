@@ -1,0 +1,111 @@
+
+
+<div class="card text-center mb-5">
+    <div class="card-header">
+        Quiz : {{ attendQuiz.quiz.quiz_name }}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h5 class="card-title text-danger"> {{ quizTimeRemainingMinute }} Min {{ quizTimeRemainingSeconds }} Sec </h5>
+                <p class="card-text" ng-show="!quizTimeLess">Total Time Left</p>
+                <p class="card-text text-danger" ng-show="quizTimeLess">{{ quizTimeLess }}</p>
+            </div>
+            <div class="col-6">
+                <h5 class="card-title text-success">{{ attendQuiz.quiz.questionsData.length }}</h5>
+                <p class="card-text"> Total Questions</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="card mb-5" ng-repeat="question in attendQuiz.quiz.questionsData" ng-init="questionIndex = $index">
+        <div class="card-header" style="text-align: justify-all">
+            <p>Question #{{ $index + 1}} : <span class="badge rounded-pill bg-primary">{{ question.question_category.toUpperCase() }}</span></p>
+            <b><p ng-bind-html="question.question"></p></b>
+            <span class="badge rounded-pill bg-success">{{ question.question_mark }} Marks</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-2" ng-repeat="option in attendQuiz.quiz.questionsData[questionIndex].optionsData">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="{{ $index }}" ng-model="attendQuiz.questions[questionIndex].answer">
+                        <label class="form-check-label" ng-bind-html="option.option"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-5" data-toggle="modal" data-target="#submitQuizModalBox">Submit Quiz Now</button>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="submitQuizModalBox" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Are you sure, you want to end the test?</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-horizontal" ng-show="!attendQuiz.successMsg">
+                    <div class="row">
+                        <div class="col-6">
+                            <li class="list-group-item">Total Time Left</li>
+                        </div>
+                        <div class="col-6">
+                            <li class="list-group-item text-danger"> {{ quizTimeRemainingMinute }} Min {{ quizTimeRemainingSeconds }} Sec </li>
+                        </div>
+                    </div>
+                </ul>
+                <ul class="list-group list-group-horizontal" ng-show="!attendQuiz.successMsg">
+                    <div class="row">
+                        <div class="col-6">
+                            <li class="list-group-item">Total Questions</li>
+                        </div>
+                        <div class="col-6">
+                            <li class="list-group-item text-danger"> {{ attendQuiz.quiz.questionsData.length }} Question </li>
+                        </div>
+                    </div>
+                </ul>
+                <ul class="list-group list-group-horizontal" ng-show="!attendQuiz.successMsg">
+                    <div class="row">
+                        <div class="col-6">
+                            <li class="list-group-item">Questions Marked</li>
+                        </div>
+                        <div class="col-6">
+                            <li class="list-group-item text-danger"> {{ attendQuiz.quiz.questionsData.length }} Question </li>
+                        </div>
+                    </div>
+                </ul>
+
+                <!-- Loading -->
+                <div class="alert alert-primary" ng-show="attendQuiz.loading">
+                    Hold on... submitting your quiz!
+                </div>
+
+                <!-- Error -->
+                <div class="alert alert-danger" ng-show="attendQuiz.errorMsg">
+                    {{ attendQuiz.errorMsg }}
+                </div>
+
+                <!-- Error -->
+                <div class="alert alert-success" ng-show="attendQuiz.successMsg">
+                    {{ attendQuiz.successMsg }}
+                </div>
+            </div>
+            <div class="modal-footer" ng-show="!attendQuiz.successMsg || attendQuiz.loading">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="attendQuiz.submitQuizNow();">Submit Now</button>
+            </div>
+
+            <div class="modal-footer" ng-show="attendQuiz.successMsg">
+                <a type="button" class="btn btn-success" href="/quizzes">Return to Home Page</a>
+            </div>
+        </div>
+    </div>
+</div>
+

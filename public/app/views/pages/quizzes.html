@@ -1,0 +1,23 @@
+<div class="mb-5">
+    <div class="text-center">
+        <h1>Quiz Section</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6" ng-repeat="quiz in quiz.quizzes">
+        <div class="card text-center">
+            <div class="card-header">
+                Quiz : {{ quiz.quiz_name }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span class="badge rounded-pill bg-warning">{{ quiz.level.toUpperCase() }} Level</span>
+                    <span class="badge rounded-pill bg-success">{{ quiz.category.toUpperCase() }} Category</span>
+                </h5>
+                <p class="card-text">Duration : {{ quiz.duration }} Min.</p>
+                <a href="/quiz/{{ quiz._id }}" class="btn btn-primary">Start Quiz</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
     API written by - Pankaj Tanwar
 */
 var User = require('../models/user');
+var Quiz = require('../models/quiz');
 var jwt = require('jsonwebtoken');
 var secret = process.env.SECRET_VAL;
 var nodemailer = require('nodemailer');
@@ -920,6 +921,142 @@ module.exports = function (router){
                 }
             }
         });
+    });
+
+    // post new quiz
+    router.post('/postQuizData', function (req, res) {
+        console.log(req.body);
+        let quiz = new Quiz();
+
+        quiz.quiz_name = req.body.quiz_name;
+        quiz.level = req.body.level;
+        quiz.category = req.body.category;
+        quiz.duration = req.body.duration;
+        quiz.timestamp  = new Date();
+        quiz.created_by = req.decoded.email;
+
+        Object.values(req.body.questionsData).forEach(function (question, questionIndex) {
+            quiz.questionsData.push(question);
+            quiz.questionsData[questionIndex].optionsData = [];
+            Object.values(question.optionsData).forEach(function (option) {
+                //console.log(option);
+                //console.log(option.option);
+                if(option.option) {
+                    //console.log(questionIndex);
+                    quiz.questionsData[questionIndex].optionsData.push({ option : option.option  });
+                    //console.log(quiz.questions_data);
+                }
+            });
+        });
+
+        quiz.save(function (err) {
+            if(err) {
+                console.log(err);
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    message : 'Quiz successfully added.'
+                })
+            }
+
+        })
+    });
+
+    // router to get all quizzes
+    router.get('/getAllQuizzes', function (req, res) {
+        Quiz.find({ }).select('quiz_name level category duration timestamp').lean().exec(function (err, quizzes) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    quizzes : quizzes
+                })
+            }
+        })
+    });
+
+    // get quiz by id
+    router.get('/getQuiz/:quizID', function(req, res) {
+        Quiz.findOne({ _id : req.params.quizID }, function (err, quiz) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    quiz : quiz
+                })
+            }
+        })
+    });
+
+    // submit quiz
+    router.post('/submitQuizNow/:quizID', function (req, res) {
+
+        console.log(req.body);
+
+        Quiz.findOne({ _id : req.params.quizID }, function (err, quiz) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!quiz) {
+                res.json({
+                    success : false,
+                    messaeg : 'Quiz not found.'
+                })
+            } else  {
+
+                let result = {
+                    candidate_email : req.decoded.email,
+                    timeLeftInSeconds : req.body.timeLeftInSeconds,
+                    timestamp : new Date()
+                }
+
+                result.total_score = 0;
+                result.selected_answers = [];
+
+                quiz.questionsData.forEach(function (question, questionIndex) {
+                    if(req.body.questions[questionIndex]) {
+                        if(question.correct_option === parseInt(req.body.questions[questionIndex].answer)) {
+                            result.total_score = result.total_score + question.question_mark;
+                        }
+                        result.selected_answers.push({ answer : parseInt(req.body.questions[questionIndex].answer)});
+                    } else {
+                        result.selected_answers.push({ answer : -1 });
+
+                    }
+                })
+
+                quiz.results.push(result);
+
+                quiz.save(function (err) {
+                    if(err) {
+                        res.json({
+                            success : false,
+                            message : 'Something went wrong!'
+                        })
+                    } else {
+                        res.json({
+                            success : true,
+                            message : 'Quiz successfully submitted.'
+                        })
+                    }
+                })
+
+            }
+        })
     });
 
     return router;
