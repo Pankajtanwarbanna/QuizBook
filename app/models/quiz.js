@@ -34,12 +34,12 @@ var quizSchema = new mongoose.Schema({
             type : Number,
             required : true
         },
-        question_category : {
-            type : String,
+        question_mark : {
+            type : Number,
             required : true
         },
-        question_mark : {
-            type : String,
+        negative_mark : {
+            type : Number,
             required : true
         },
         explanation : {

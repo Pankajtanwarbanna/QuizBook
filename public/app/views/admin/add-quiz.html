@@ -79,13 +79,8 @@
                                 <input type="number" class="form-control" ng-model="addQuiz.quizData.questionsData[questionIndex].question_mark" placeholder="Enter marks for question" required>
                             </div>
                             <div class="col-4 mb-3">
-                                <label class="form-label">Question Category</label>
-                                <select class="form-select" ng-model="addQuiz.quizData.questionsData[questionIndex].question_category" required>
-                                    <option value="">-- Select Question Category --</option>
-                                    <option value="numerical">Numerical</option>
-                                    <option value="conceptual">Conceptual</option>
-                                    <option value="problem-solving">Problem Solving</option>
-                                </select>
+                                <label class="form-label">Negative Marking (eg. -5 Marks) </label>
+                                <input type="number" class="form-control" ng-model="addQuiz.quizData.questionsData[questionIndex].negative_mark" placeholder="Enter marks for question" required>
                             </div>
                             <div class="col-4 mb-3">
                                 <label class="form-label">No of Options to Question #1</label>

@@ -86,6 +86,11 @@ angular.module('userServices',[])
         return $http.get('/api/getQuiz/' + quizID);
     };
 
+    // get quiz by id
+    userFactory.getQuizForLeaderboard = function (quizID) {
+        return $http.get('/api/getQuizForLeaderboard/' + quizID);
+    };
+
     // submit quiz now
     userFactory.submitQuizNow = function (submitData, quizID) {
         return $http.post('/api/submitQuizNow/' + quizID, submitData);

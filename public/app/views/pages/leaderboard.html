@@ -1,0 +1,51 @@
+
+<div class="card text-center mb-5">
+    <div class="card-header">
+        Leaderboard : {{ leaderboard.quiz.quiz_name }}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h5 class="card-title text-danger"> {{ leaderboard.quiz.level.toUpperCase() }} </h5>
+                <p class="card-text">Quiz Level</p>
+            </div>
+            <div class="col-6">
+                <h5 class="card-title text-success">{{ leaderboard.quiz.results.length }}</h5>
+                <p class="card-text"> Candidates appeared for Quiz</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card text-center mb-5">
+    <div class="card-body">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
+                <th scope="col">Total Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="person in leaderboard.quiz.results">
+                <th scope="row">{{ $index + 1}}</th>
+                <td>{{ person.candidate_email }}</td>
+                <td>{{ person.total_score }} </td>
+                <td>{{ (((leaderboard.quiz.duration)*60 - person.timeLeftInSeconds)/60) | trunc }} Min {{ ((leaderboard.quiz.duration)*60 - person.timeLeftInSeconds)%60 }} Sec.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12 text-center">
+        <a href="/answersheet/{{ leaderboard.quiz._id }}" class="btn btn-primary mb-5">Go to Answer Sheet</a>
+    </div>
+
+
+</div>
+
+

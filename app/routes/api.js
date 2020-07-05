@@ -985,13 +985,46 @@ module.exports = function (router){
 
     // get quiz by id
     router.get('/getQuiz/:quizID', function(req, res) {
-        Quiz.findOne({ _id : req.params.quizID }, function (err, quiz) {
+        Quiz.findOne({ _id : req.params.quizID }).lean().exec( function (err, quiz) {
             if(err) {
                 res.json({
                     success : false,
                     message : 'Something went wrong!'
                 })
             } else {
+                res.json({
+                    success : true,
+                    quiz : quiz
+                })
+            }
+        })
+    });
+
+    // get quiz by id
+    router.get('/getQuizForLeaderboard/:quizID', function(req, res) {
+
+        Quiz.findOne({ _id : req.params.quizID }).select('quiz_name results level duration').lean().exec( function (err, quiz) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+
+                // Sort candidates as per values!
+                quiz.results.sort(function (candidate_1, candidate_2) {
+                    if(candidate_1.total_score > candidate_2.total_score) {
+                        return -1;
+                    } else if(candidate_1.total_score === candidate_2.total_score) {
+                        if(candidate_1.timeLeftInSeconds > candidate_2.timeLeftInSeconds) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+                    return 0;
+                });
+
                 res.json({
                     success : true,
                     quiz : quiz
@@ -1022,22 +1055,27 @@ module.exports = function (router){
                     candidate_email : req.decoded.email,
                     timeLeftInSeconds : req.body.timeLeftInSeconds,
                     timestamp : new Date()
-                }
+                };
 
                 result.total_score = 0;
                 result.selected_answers = [];
 
-                quiz.questionsData.forEach(function (question, questionIndex) {
-                    if(req.body.questions[questionIndex]) {
-                        if(question.correct_option === parseInt(req.body.questions[questionIndex].answer)) {
-                            result.total_score = result.total_score + question.question_mark;
-                        }
-                        result.selected_answers.push({ answer : parseInt(req.body.questions[questionIndex].answer)});
-                    } else {
-                        result.selected_answers.push({ answer : -1 });
+                if(req.body.questions) {
+                    quiz.questionsData.forEach(function (question, questionIndex) {
+                        if(req.body.questions[questionIndex]) {
+                            if(question.correct_option === parseInt(req.body.questions[questionIndex].answer)) {
+                                result.total_score = result.total_score + question.question_mark;
+                            } else {
+                                result.total_score = result.total_score + question.negative_mark;
+                            }
+                            result.selected_answers.push({ answer : parseInt(req.body.questions[questionIndex].answer)});
+                        } else {
+                            result.selected_answers.push({ answer : -1 });
 
-                    }
-                })
+                        }
+                    });
+                }
+
 
                 quiz.results.push(result);
 

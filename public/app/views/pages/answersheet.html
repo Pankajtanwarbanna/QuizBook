@@ -1,0 +1,44 @@
+
+
+<div class="card text-center mb-5">
+    <div class="card-header">
+        Quiz Answer Sheet : <b>{{ answersheet.quiz.quiz_name }}</b>
+    </div>
+</div>
+
+<div class="row">
+    <div class="card mb-5" ng-repeat="question in answersheet.quiz.questionsData" ng-init="questionIndex = $index">
+        <div class="card-header" style="text-align: justify-all">
+            <p>Question #{{ $index + 1}} : <span class="badge rounded-pill bg-primary">{{ question.question_category.toUpperCase() }}</span></p>
+            <b><p ng-bind-html="question.question"></p></b>
+            <span class="badge rounded-pill bg-success">+{{ question.question_mark }} Marks</span>
+            <span class="badge rounded-pill bg-danger">{{ question.negative_mark }} Marks</span>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-2" ng-repeat="option in answersheet.quiz.questionsData[questionIndex].optionsData">
+                    <div class="form-check">
+                        <label class="form-check-label" ng-show="$index !== answersheet.quiz.questionsData[questionIndex].correct_option" ng-bind-html="option.option"></label>
+                        <label class="form-check-label text-success" ng-show="$index === answersheet.quiz.questionsData[questionIndex].correct_option" ng-bind-html="option.option"></label>
+                        <i class="fa fa-check-circle-o text-success" ng-show="$index === answersheet.quiz.questionsData[questionIndex].correct_option"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-2">
+                    <p class="text-primary">Explanation : </p>
+                    <p ng-bind-html="answersheet.quiz.questionsData[questionIndex].explanation"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/leaderboard/{{ answersheet.quiz._id }}" class="btn btn-primary mb-5">Go to Leaderboard</a>
+
+</div>
+
+

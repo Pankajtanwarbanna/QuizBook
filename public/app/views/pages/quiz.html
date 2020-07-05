@@ -19,12 +19,14 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="!attendQuiz.timeover">
     <div class="card mb-5" ng-repeat="question in attendQuiz.quiz.questionsData" ng-init="questionIndex = $index">
         <div class="card-header" style="text-align: justify-all">
             <p>Question #{{ $index + 1}} : <span class="badge rounded-pill bg-primary">{{ question.question_category.toUpperCase() }}</span></p>
             <b><p ng-bind-html="question.question"></p></b>
-            <span class="badge rounded-pill bg-success">{{ question.question_mark }} Marks</span>
+            <span class="badge rounded-pill bg-success">+{{ question.question_mark }} Marks</span>
+            <span class="badge rounded-pill bg-danger">{{ question.negative_mark }} Marks</span>
+
         </div>
         <div class="card-body">
             <div class="row">
@@ -40,6 +42,34 @@
 
     <button type="submit" class="btn btn-primary mb-5" data-toggle="modal" data-target="#submitQuizModalBox">Submit Quiz Now</button>
 
+</div>
+
+
+
+<div class="card text-center mb-5" ng-show="attendQuiz.timeover">
+    <div class="card-header text-danger">
+        Time Over
+    </div>
+    <div class="card-body text-center">
+        <!-- Loading -->
+        <div class="alert alert-primary" ng-show="attendQuiz.loading">
+            Hold on... submitting your quiz!
+        </div>
+
+        <!-- Error -->
+        <div class="alert alert-danger" ng-show="attendQuiz.errorMsg">
+            {{ attendQuiz.errorMsg }}
+        </div>
+
+        <!-- Error -->
+        <div class="alert alert-success" ng-show="attendQuiz.successMsg">
+            {{ attendQuiz.successMsg }}
+        </div>
+
+        <div class="modal-footer">
+            <a type="button" class="btn btn-success" href="/quizzes">Return to Home Page</a>
+        </div>
+    </div>
 </div>
 
 
@@ -67,17 +97,17 @@
                             <li class="list-group-item">Total Questions</li>
                         </div>
                         <div class="col-6">
-                            <li class="list-group-item text-danger"> {{ attendQuiz.quiz.questionsData.length }} Question </li>
+                            <li class="list-group-item text-primary"> {{ attendQuiz.quiz.questionsData.length }} Question </li>
                         </div>
                     </div>
                 </ul>
                 <ul class="list-group list-group-horizontal" ng-show="!attendQuiz.successMsg">
                     <div class="row">
                         <div class="col-6">
-                            <li class="list-group-item">Questions Marked</li>
+                            <li class="list-group-item">Questions Attempted</li>
                         </div>
                         <div class="col-6">
-                            <li class="list-group-item text-danger"> {{ attendQuiz.quiz.questionsData.length }} Question </li>
+                            <li class="list-group-item text-success"> {{ attendQuiz.questions | lengthFilter }} Question </li>
                         </div>
                     </div>
                 </ul>

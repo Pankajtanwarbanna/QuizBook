@@ -90,6 +90,8 @@ angular.module('userCtrl',['userServices'])
             $interval.cancel(timerId);
             //console.log('Time Over');
             app.submittingTest = true;
+            app.timeover = true;
+            app.submitQuizNow();
         }, $scope.quizTime * 1000);
     }
 
@@ -115,6 +117,42 @@ angular.module('userCtrl',['userServices'])
 
 })
 
+// leaderboard controller
+.controller('leaderboardCtrl', function (user,$routeParams) {
+
+    let app = this;
+
+    function getQuizForLeaderboard() {
+        user.getQuizForLeaderboard($routeParams.quizID).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.quiz = data.data.quiz;
+            } else {
+                app.errorMsg = data.data.message;
+            }
+        })
+    }
+
+    getQuizForLeaderboard();
+})
+
+// leaderboard controller
+.controller('answersheetCtrl', function (user,$routeParams) {
+
+    let app = this;
+
+    function getQuiz() {
+        user.getQuiz($routeParams.quizID).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.quiz = data.data.quiz;
+            } else {
+                app.errorMsg = data.data.message;
+            }
+        })
+    }
+    getQuiz();
+})
 
 .controller('usersCtrl', function (user) {
     var app = this;

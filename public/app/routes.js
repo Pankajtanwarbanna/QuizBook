@@ -104,6 +104,20 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'attendQuiz'
             })
 
+            .when('/leaderboard/:quizID', {
+                templateUrl : 'app/views/pages/leaderboard.html',
+                authenticated : true,
+                controller : 'leaderboardCtrl',
+                controllerAs : 'leaderboard'
+            })
+
+            .when('/answersheet/:quizID', {
+                templateUrl : 'app/views/pages/answersheet.html',
+                authenticated : true,
+                controller : 'answersheetCtrl',
+                controllerAs : 'answersheet'
+            })
+
             .otherwise( { redirectTo : '/'});
 
         $locationProvider.html5Mode({

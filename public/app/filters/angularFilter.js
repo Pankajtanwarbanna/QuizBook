@@ -1,18 +1,22 @@
 var app = angular.module('userFilters', [])
 
-.filter('classImageFilter', function () {
-    return function(className) {
-        return className.split(" ").join("").toLowerCase();
+.filter('lengthFilter', function () {
+
+    return function(value) {
+        //console.log(value);
+        if(value) {
+            return (Object.keys(value)).length;
+        }
+        //console.log(Object.keys(value));
+        return 0;
+        //return Object.keys(value).length;
     };
 })
 
-.filter('isNotNumberThenZero', function () {
+.filter('trunc', function () {
 
     return function(value) {
-        if(isNaN(value)) {
-            return 0;
-        }
-        return value;
+        return Math.trunc(value);
     };
 })
 
